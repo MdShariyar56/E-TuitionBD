@@ -65,4 +65,15 @@ export const mockTuitions = [
     posted: "3 days ago",
     status: "Open",
   },
+  {
+    id: 7,
+    subject: "Bangla",
+    class: "Class 7",
+    location: "Banani, Dhaka",
+    budget: 4000,
+    schedule: "4 days/week",
+    preferredTime: "Morning",
+    posted: "3 days ago",
+    status: "Open",
+  },
 ];
