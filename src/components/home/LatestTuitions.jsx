@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   HiOutlineLocationMarker,
   HiOutlineCalendar,
@@ -74,8 +74,7 @@ const tuitionPosts = [
 ];
 
 export default function LatestTuitions() {
-  const shouldReduceMotion = useReducedMotion();
-
+  const shouldReduceMotion = false;
   const headerVariants = {
     hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 24 },
     visible: {

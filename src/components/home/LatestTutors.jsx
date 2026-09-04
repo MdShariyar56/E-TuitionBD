@@ -114,7 +114,7 @@ export default function LatestTutors() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           variants={headerVariants}
-          initial="hidden"
+          initial={false}
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           className="mx-auto max-w-2xl text-center"
@@ -133,7 +133,7 @@ export default function LatestTutors() {
 
         <motion.ul
           variants={gridVariants}
-          initial="hidden"
+          initial={false}
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
           className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
@@ -210,7 +210,7 @@ export default function LatestTutors() {
         </motion.ul>
         <motion.div
           variants={headerVariants}
-          initial="hidden"
+          initial={false}
           whileInView="visible"
           viewport={{ once: true, amount: 0.5 }}
           className="mt-12 text-center"
