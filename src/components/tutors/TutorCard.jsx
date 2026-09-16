@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   HiOutlineLocationMarker,
   HiOutlineBriefcase,
@@ -21,12 +21,11 @@ function getInitials(name) {
 }
 
 export default function TutorCard({ tutor, variants }) {
-  const shouldReduceMotion = useReducedMotion();
-
   return (
     <motion.li
       variants={variants}
-      whileHover={shouldReduceMotion ? undefined : { y: -4 }}
+      initial={false}
+      whileHover={{ y: -4 }}
       transition={{ duration: 0.2, ease: "easeOut" }}
       className="flex h-full flex-col rounded-2xl border border-slate-100 bg-white p-6 text-center shadow-sm transition-shadow duration-200 hover:border-emerald-100 hover:shadow-md"
     >
@@ -37,6 +36,7 @@ export default function TutorCard({ tutor, variants }) {
         >
           {getInitials(tutor.name)}
         </div>
+
         {tutor.verified && (
           <span
             className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full bg-white text-emerald-600 shadow"
@@ -47,13 +47,27 @@ export default function TutorCard({ tutor, variants }) {
         )}
       </div>
 
-      <h3 className="mt-4 text-lg font-bold text-slate-900">{tutor.name}</h3>
-      <p className="text-sm font-medium text-emerald-700">{tutor.title}</p>
+      <h3 className="mt-4 text-lg font-bold text-slate-900">
+        {tutor.name}
+      </h3>
+
+      <p className="text-sm font-medium text-emerald-700">
+        {tutor.title}
+      </p>
 
       <div className="mt-2 flex items-center justify-center gap-1.5 text-sm">
-        <HiStar className="h-4 w-4 text-amber-400" aria-hidden="true" />
-        <span className="font-semibold text-slate-800">{tutor.rating}</span>
-        <span className="text-slate-400">({tutor.reviews} reviews)</span>
+        <HiStar
+          className="h-4 w-4 text-amber-400"
+          aria-hidden="true"
+        />
+
+        <span className="font-semibold text-slate-800">
+          {tutor.rating}
+        </span>
+
+        <span className="text-slate-400">
+          ({tutor.reviews} reviews)
+        </span>
       </div>
 
       <div className="mt-4 w-full space-y-2 border-t border-slate-100 pt-4 text-left text-sm text-slate-600">
@@ -62,21 +76,28 @@ export default function TutorCard({ tutor, variants }) {
             className="h-4 w-4 shrink-0 text-slate-400"
             aria-hidden="true"
           />
+
           <span>{tutor.experience} Years Experience</span>
         </div>
+
         <div className="flex items-center gap-2">
           <HiOutlineLocationMarker
             className="h-4 w-4 shrink-0 text-slate-400"
             aria-hidden="true"
           />
+
           <span>{tutor.location}</span>
         </div>
+
         <div className="flex items-center gap-2">
           <HiOutlineAcademicCap
             className="h-4 w-4 shrink-0 text-slate-400"
             aria-hidden="true"
           />
-          <span className="line-clamp-1">{tutor.education}</span>
+
+          <span className="line-clamp-1">
+            {tutor.education}
+          </span>
         </div>
       </div>
 
@@ -106,8 +127,10 @@ export default function TutorCard({ tutor, variants }) {
         <p className="text-xs font-medium uppercase tracking-wide text-emerald-700/80">
           Hourly Rate
         </p>
+
         <p className="text-xl font-bold text-emerald-700">
           ৳{tutor.hourlyRate.toLocaleString()}
+
           <span className="ml-1 text-sm font-medium text-emerald-700/70">
             /hr
           </span>
@@ -119,7 +142,11 @@ export default function TutorCard({ tutor, variants }) {
         className="mt-5 inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-emerald-600 px-4 py-2.5 text-sm font-semibold text-emerald-700 transition-colors duration-200 hover:bg-emerald-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600"
       >
         View Profile
-        <HiArrowRight className="h-4 w-4" aria-hidden="true" />
+
+        <HiArrowRight
+          className="h-4 w-4"
+          aria-hidden="true"
+        />
       </Link>
     </motion.li>
   );

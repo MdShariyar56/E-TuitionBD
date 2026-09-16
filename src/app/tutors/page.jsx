@@ -2,7 +2,11 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { HiChevronLeft, HiChevronRight, HiExclamationCircle } from "react-icons/hi";
+import {
+  HiChevronLeft,
+  HiChevronRight,
+  HiExclamationCircle,
+} from "react-icons/hi";
 import TutorList from "@/components/tutors/TutorList";
 import TutorFilters, {
   experienceOptions,
@@ -22,7 +26,12 @@ const DEFAULT_FILTERS = {
   verifiedOnly: false,
 };
 
-const EXPERIENCE_THRESHOLDS = { "1+ Years": 1, "3+ Years": 3, "5+ Years": 5, "8+ Years": 8 };
+const EXPERIENCE_THRESHOLDS = {
+  "1+ Years": 1,
+  "3+ Years": 3,
+  "5+ Years": 5,
+  "8+ Years": 8,
+};
 const RATING_THRESHOLDS = { "4.5+": 4.5, "4.7+": 4.7, "4.9+": 4.9 };
 
 const SORT_OPTIONS = [
@@ -92,9 +101,7 @@ function sortTutors(tutors, sortBy) {
       return sorted.sort((a, b) => b.hourlyRate - a.hourlyRate);
     case "Recommended":
     default:
-      return sorted.sort(
-        (a, b) => b.rating - a.rating || b.reviews - a.reviews
-      );
+      return sorted;
   }
 }
 
@@ -156,19 +163,19 @@ export default function TutorsPage() {
 
   const filteredTutors = useMemo(
     () => filterTutors(tutors, search, filters),
-    [tutors, search, filters]
+    [tutors, search, filters],
   );
 
   const sortedTutors = useMemo(
     () => sortTutors(filteredTutors, sortBy),
-    [filteredTutors, sortBy]
+    [filteredTutors, sortBy],
   );
 
   const totalPages = Math.max(1, Math.ceil(sortedTutors.length / PAGE_SIZE));
   const safePage = Math.min(currentPage, totalPages);
   const paginatedTutors = sortedTutors.slice(
     (safePage - 1) * PAGE_SIZE,
-    safePage * PAGE_SIZE
+    safePage * PAGE_SIZE,
   );
 
   const handleClearFilters = () => {
@@ -190,8 +197,8 @@ export default function TutorsPage() {
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-8 lg:py-20">
         <motion.div
           variants={fadeUp}
-          initial="hidden"
-          animate="visible"
+          whileInView="visible"
+          viewport={{ once: true }}
           className="mx-auto max-w-2xl text-center"
         >
           <span className="inline-flex items-center rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1 text-xs font-medium text-emerald-700 sm:text-sm">
@@ -201,15 +208,15 @@ export default function TutorsPage() {
             Find the Right Tutor
           </h1>
           <p className="mt-3 text-base leading-relaxed text-slate-500 sm:text-lg">
-            Browse qualified tutors and filter by subject, location,
-            experience, and more.
+            Browse qualified tutors and filter by subject, location, experience,
+            and more.
           </p>
         </motion.div>
 
         <motion.div
           variants={fadeUp}
-          initial="hidden"
-          animate="visible"
+          whileInView="visible"
+          viewport={{ once: true }}
           transition={{ delay: 0.1 }}
           className="mt-10"
         >

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   HiArrowLeft,
   HiOutlineAcademicCap,
@@ -13,35 +13,55 @@ import {
 import TuitionCard from "@/components/tuitions/TuitionCard";
 
 export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
-  const shouldReduceMotion = useReducedMotion();
-
   const fadeUp = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
+    hidden: {
+      opacity: 0,
+      y: 20,
+    },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
     },
   };
 
   const fadeIn = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { duration: 0.4, ease: "easeOut" } },
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+      },
+    },
   };
 
   const gridVariants = {
     hidden: {},
     visible: {
-      transition: { staggerChildren: shouldReduceMotion ? 0 : 0.08 },
+      transition: {
+        staggerChildren: 0.08,
+      },
     },
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: shouldReduceMotion ? 0 : 20 },
+    hidden: {
+      opacity: 0,
+      y: 20,
+    },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.4, ease: "easeOut" },
+      transition: {
+        duration: 0.4,
+        ease: "easeOut",
+      },
     },
   };
 
@@ -90,7 +110,10 @@ export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
     { label: "Subject", value: tuition.subject },
     { label: "Class", value: tuition.class },
     { label: "Location", value: tuition.location },
-    { label: "Monthly Budget", value: `৳${tuition.budget.toLocaleString()}` },
+    {
+      label: "Monthly Budget",
+      value: `৳${tuition.budget.toLocaleString()}`,
+    },
     { label: "Schedule", value: tuition.schedule },
     { label: "Preferred Time", value: tuition.preferredTime },
     { label: "Posted", value: tuition.posted },
@@ -100,7 +123,13 @@ export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
   return (
     <main className="bg-white">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
-        <motion.div variants={fadeIn} initial="hidden" animate="visible">
+        {/* Back Link */}
+        <motion.div
+          variants={fadeIn}
+          initial={false}
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           <Link
             href="/tuitions"
             className="group inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 transition-colors duration-200 hover:text-emerald-600"
@@ -115,10 +144,12 @@ export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
 
         <div className="mt-6 grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-start lg:gap-10">
           <div className="space-y-8 lg:col-span-2">
+            {/* Tuition Header */}
             <motion.section
               variants={fadeUp}
-              initial="hidden"
-              animate="visible"
+              initial={false}
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
               className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8"
             >
               <div className="flex flex-wrap items-start justify-between gap-4">
@@ -126,53 +157,69 @@ export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
                   <h1 className="text-2xl font-bold text-slate-900 sm:text-3xl">
                     {tuition.subject}
                   </h1>
+
                   <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-500">
                     <HiOutlineAcademicCap
                       className="h-4 w-4 text-emerald-600"
                       aria-hidden="true"
                     />
+
                     {tuition.class}
+
                     <span className="text-slate-300">•</span>
+
                     <HiOutlineLocationMarker
                       className="h-4 w-4 text-emerald-600"
                       aria-hidden="true"
                     />
+
                     {tuition.location}
                   </p>
                 </div>
+
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700 sm:text-sm">
                   <span
                     className="h-1.5 w-1.5 rounded-full bg-emerald-500"
                     aria-hidden="true"
                   />
+
                   {tuition.status}
                 </span>
               </div>
 
+              {/* Monthly Budget */}
               <div className="mt-6 inline-flex flex-col rounded-xl bg-emerald-50/70 px-5 py-3">
                 <span className="text-xs font-medium uppercase tracking-wide text-emerald-700/80">
                   Monthly Budget
                 </span>
+
                 <span className="text-2xl font-bold text-emerald-700 sm:text-3xl">
                   ৳{tuition.budget.toLocaleString()}
+
                   <span className="ml-1 text-sm font-medium text-emerald-700/70">
                     /month
                   </span>
                 </span>
               </div>
 
+              {/* Quick Info */}
               <dl className="mt-8 grid grid-cols-1 gap-4 border-t border-slate-100 pt-6 sm:grid-cols-2 lg:grid-cols-3">
                 {quickInfo.map(({ label, value, icon: Icon }) => (
                   <div key={label} className="flex items-start gap-3">
                     <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-600">
                       {Icon ? (
-                        <Icon className="h-4.5 w-4.5" aria-hidden="true" />
+                        <Icon
+                          className="h-[18px] w-[18px]"
+                          aria-hidden="true"
+                        />
                       ) : (
                         <span className="text-sm font-bold">৳</span>
                       )}
                     </span>
+
                     <div>
                       <dt className="text-xs text-slate-500">{label}</dt>
+
                       <dd className="text-sm font-semibold text-slate-800">
                         {value}
                       </dd>
@@ -181,10 +228,11 @@ export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
                 ))}
               </dl>
             </motion.section>
-            ={" "}
+
+            {/* Tuition Overview */}
             <motion.section
               variants={fadeUp}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
               className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8"
@@ -192,15 +240,18 @@ export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
               <h2 className="text-lg font-bold text-slate-900">
                 Tuition Overview
               </h2>
+
               <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-base">
                 This tuition is looking for a dedicated tutor to help a{" "}
                 {tuition.class} student improve their {tuition.subject} skills
                 through regular and focused lessons.
               </p>
             </motion.section>
+
+            {/* Tutor Requirements */}
             <motion.section
               variants={fadeUp}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
               className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8"
@@ -208,6 +259,7 @@ export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
               <h2 className="text-lg font-bold text-slate-900">
                 Tutor Requirements
               </h2>
+
               <ul className="mt-4 space-y-3">
                 {requirements.map((requirement) => (
                   <li
@@ -218,14 +270,17 @@ export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
                       className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600"
                       aria-hidden="true"
                     />
+
                     {requirement}
                   </li>
                 ))}
               </ul>
             </motion.section>
+
+            {/* Tuition Information */}
             <motion.section
               variants={fadeUp}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true, amount: 0.3 }}
               className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8"
@@ -233,6 +288,7 @@ export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
               <h2 className="text-lg font-bold text-slate-900">
                 Tuition Information
               </h2>
+
               <dl className="mt-4 grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
                 {infoRows.map(({ label, value }) => (
                   <div
@@ -240,22 +296,28 @@ export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
                     className="flex items-center justify-between border-b border-slate-100 pb-3 text-sm sm:text-base"
                   >
                     <dt className="text-slate-500">{label}</dt>
-                    <dd className="font-semibold text-slate-800">{value}</dd>
+
+                    <dd className="font-semibold text-slate-800">
+                      {value}
+                    </dd>
                   </div>
                 ))}
               </dl>
             </motion.section>
           </div>
 
+          {/* Apply Sidebar */}
           <motion.aside
             variants={fadeUp}
-            initial="hidden"
-            animate="visible"
+            initial={false}
+            whileInView="visible"
+            viewport={{ once: true }}
             className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8 lg:sticky lg:top-24"
           >
             <h2 className="text-lg font-bold text-slate-900">
               Interested in this tuition?
             </h2>
+
             <p className="mt-2 text-sm leading-relaxed text-slate-500">
               Apply now and connect with the student/guardian.
             </p>
@@ -264,8 +326,10 @@ export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
               <p className="text-xs font-medium uppercase tracking-wide text-emerald-700/80">
                 Monthly Budget
               </p>
+
               <p className="text-xl font-bold text-emerald-700">
                 ৳{tuition.budget.toLocaleString()}
+
                 <span className="ml-1 text-sm font-medium text-emerald-700/70">
                   /month
                 </span>
@@ -281,14 +345,16 @@ export default function TuitionDetails({ tuition, relatedTuitions = [] }) {
           </motion.aside>
         </div>
 
+        {/* Related Tuitions */}
         {relatedTuitions.length > 0 && (
           <section className="mt-14">
             <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">
               Related Tuitions
             </h2>
+
             <motion.ul
               variants={gridVariants}
-              initial="hidden"
+              initial={false}
               whileInView="visible"
               viewport={{ once: true, amount: 0.15 }}
               className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
