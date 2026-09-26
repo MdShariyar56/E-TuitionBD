@@ -86,7 +86,7 @@ export default function Navbar() {
                 Login
               </Link>
               <Link
-                href="/signup"
+                href="/register"
                 className="rounded-md bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors duration-200 hover:bg-green-700"
               >
                 Signup
@@ -153,7 +153,7 @@ export default function Navbar() {
                   Login
                 </Link>
                 <Link
-                  href="/signup"
+                  href="/register"
                   onClick={closeMobileMenu}
                   className="w-full rounded-md bg-green-600 px-4 py-2 text-center text-sm font-medium text-white shadow-sm transition-colors duration-200 hover:bg-green-700"
                 >
