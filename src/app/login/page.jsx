@@ -6,11 +6,8 @@ import Swal from "sweetalert2";
 import { motion, MotionConfig } from "framer-motion";
 import {
   HiOutlineAcademicCap,
-  HiOutlineUser,
   HiOutlineMail,
-  HiOutlinePhone,
   HiOutlineLockClosed,
-  HiOutlineUserGroup,
   HiEye,
   HiEyeOff,
   HiStar,
@@ -21,17 +18,9 @@ import { FaGoogle } from "react-icons/fa";
 const MIN_PASSWORD_LENGTH = 6;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-const roleOptions = [
-  { value: "student", label: "Student", icon: HiOutlineAcademicCap },
-  { value: "tutor", label: "Tutor", icon: HiOutlineUserGroup },
-];
-
 const initialFormState = {
-  name: "",
   email: "",
-  phone: "",
   password: "",
-  role: "",
 };
 
 const avatars = ["TA", "NJ", "RH", "SR"];
@@ -65,10 +54,11 @@ const floatB = {
   transition: { repeat: Infinity, duration: 5.5, ease: "easeInOut" },
 };
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const [formData, setFormData] = useState(initialFormState);
   const [errors, setErrors] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (event) => {
@@ -76,14 +66,8 @@ export default function RegisterPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleRoleSelect = (role) => {
-    setFormData((prev) => ({ ...prev, role }));
-  };
-
   const validate = () => {
     const nextErrors = {};
-
-    if (!formData.name.trim()) nextErrors.name = "Full name is required.";
 
     if (!formData.email.trim()) {
       nextErrors.email = "Email address is required.";
@@ -91,15 +75,11 @@ export default function RegisterPage() {
       nextErrors.email = "Please enter a valid email address.";
     }
 
-    if (!formData.phone.trim()) nextErrors.phone = "Phone number is required.";
-
     if (!formData.password) {
       nextErrors.password = "Password is required.";
     } else if (formData.password.length < MIN_PASSWORD_LENGTH) {
       nextErrors.password = `Password must be at least ${MIN_PASSWORD_LENGTH} characters.`;
     }
-
-    if (!formData.role) nextErrors.role = "Please select Student or Tutor.";
 
     return nextErrors;
   };
@@ -113,7 +93,7 @@ export default function RegisterPage() {
       Swal.fire({
         icon: "error",
         title: "Missing Information",
-        text: "Please fill in all required fields correctly before creating your account.",
+        text: "Please fill in all required fields correctly before logging in.",
         confirmButtonColor: "#059669",
       });
       return;
@@ -126,11 +106,9 @@ export default function RegisterPage() {
       Swal.fire({
         icon: "success",
         title: "Looks Good!",
-        text: "Registration form is ready to submit.",
+        text: "Login form is ready to submit.",
         confirmButtonColor: "#059669",
       });
-      setFormData(initialFormState);
-      setErrors({});
     }, 400);
   };
 
@@ -201,13 +179,13 @@ export default function RegisterPage() {
 
               <div className="relative z-10 py-10">
                 <h2 className="text-3xl font-bold leading-tight text-white">
-                  Start your
+                  Learn better.
                   <br />
-                  learning journey.
+                  Teach smarter.
                 </h2>
                 <p className="mt-3 max-w-xs text-sm leading-relaxed text-emerald-50/90">
-                  Join as a Student to find the right tutor, or as a Tutor to
-                  discover tuition opportunities.
+                  Pick up right where you left off with tutors and tuition
+                  opportunities that fit you.
                 </p>
 
                 <div className="relative mt-8 h-36">
@@ -267,10 +245,10 @@ export default function RegisterPage() {
                   />
                 </span>
                 <h1 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl md:mt-0">
-                  Create Your Account
+                  Welcome Back
                 </h1>
                 <p className="mt-2 text-sm leading-relaxed text-slate-500 sm:text-base">
-                  Join E-TuitionBD as a Student or Tutor and get started.
+                  Login to your E-TuitionBD account
                 </p>
               </div>
 
@@ -279,37 +257,6 @@ export default function RegisterPage() {
                 noValidate
                 className="mt-8 space-y-5"
               >
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="mb-1.5 block text-sm font-medium text-slate-700"
-                  >
-                    Full Name
-                  </label>
-                  <div className="relative">
-                    <HiOutlineUser
-                      className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
-                      aria-hidden="true"
-                    />
-                    <input
-                      id="name"
-                      name="name"
-                      type="text"
-                      value={formData.name}
-                      onChange={handleChange}
-                      placeholder="Enter your full name"
-                      aria-invalid={Boolean(errors.name)}
-                      aria-describedby={errors.name ? "name-error" : undefined}
-                      className={inputClasses(Boolean(errors.name))}
-                    />
-                  </div>
-                  {errors.name && (
-                    <p id="name-error" className="mt-1.5 text-xs text-red-600">
-                      {errors.name}
-                    </p>
-                  )}
-                </div>
-
                 <div>
                   <label
                     htmlFor="email"
@@ -345,39 +292,6 @@ export default function RegisterPage() {
 
                 <div>
                   <label
-                    htmlFor="phone"
-                    className="mb-1.5 block text-sm font-medium text-slate-700"
-                  >
-                    Phone Number
-                  </label>
-                  <div className="relative">
-                    <HiOutlinePhone
-                      className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
-                      aria-hidden="true"
-                    />
-                    <input
-                      id="phone"
-                      name="phone"
-                      type="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="Enter your phone number"
-                      aria-invalid={Boolean(errors.phone)}
-                      aria-describedby={
-                        errors.phone ? "phone-error" : undefined
-                      }
-                      className={inputClasses(Boolean(errors.phone))}
-                    />
-                  </div>
-                  {errors.phone && (
-                    <p id="phone-error" className="mt-1.5 text-xs text-red-600">
-                      {errors.phone}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label
                     htmlFor="password"
                     className="mb-1.5 block text-sm font-medium text-slate-700"
                   >
@@ -394,7 +308,7 @@ export default function RegisterPage() {
                       type={showPassword ? "text" : "password"}
                       value={formData.password}
                       onChange={handleChange}
-                      placeholder="Create a password"
+                      placeholder="Enter your password"
                       aria-invalid={Boolean(errors.password)}
                       aria-describedby={
                         errors.password ? "password-error" : undefined
@@ -428,41 +342,22 @@ export default function RegisterPage() {
                   )}
                 </div>
 
-                <div>
-                  <span className="mb-1.5 block text-sm font-medium text-slate-700">
-                    Register As
-                  </span>
-                  <div
-                    role="radiogroup"
-                    aria-label="Register as"
-                    className="grid grid-cols-2 gap-3"
+                <div className="flex items-center justify-between text-sm">
+                  <label className="inline-flex items-center gap-2 text-slate-600">
+                    <input
+                      type="checkbox"
+                      checked={rememberMe}
+                      onChange={(event) => setRememberMe(event.target.checked)}
+                      className="h-4 w-4 rounded border-slate-300 text-emerald-600 focus:ring-2 focus:ring-emerald-500/30"
+                    />
+                    Remember me
+                  </label>
+                  <Link
+                    href="/forgot-password"
+                    className="font-medium text-emerald-700 transition-colors duration-200 hover:text-emerald-800"
                   >
-                    {roleOptions.map(({ value, label, icon: Icon }) => {
-                      const isSelected = formData.role === value;
-                      return (
-                        <motion.button
-                          key={value}
-                          type="button"
-                          role="radio"
-                          aria-checked={isSelected}
-                          onClick={() => handleRoleSelect(value)}
-                          whileHover={{ y: -2 }}
-                          transition={{ duration: 0.15, ease: "easeOut" }}
-                          className={`flex flex-col items-center gap-2 rounded-xl border-2 px-4 py-4 text-sm font-semibold transition-colors duration-200 ${
-                            isSelected
-                              ? "border-emerald-600 bg-emerald-50 text-emerald-700"
-                              : "border-slate-200 bg-white text-slate-600 hover:border-emerald-200"
-                          }`}
-                        >
-                          <Icon className="h-6 w-6" aria-hidden="true" />
-                          {label}
-                        </motion.button>
-                      );
-                    })}
-                  </div>
-                  {errors.role && (
-                    <p className="mt-1.5 text-xs text-red-600">{errors.role}</p>
-                  )}
+                    Forgot Password?
+                  </Link>
                 </div>
 
                 <button
@@ -470,18 +365,8 @@ export default function RegisterPage() {
                   disabled={isSubmitting}
                   className="w-full rounded-lg bg-emerald-600 px-6 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0"
                 >
-                  {isSubmitting ? "Creating Account..." : "Create Account"}
+                  {isSubmitting ? "Logging in..." : "Login"}
                 </button>
-
-                <p className="text-center text-sm text-slate-500">
-                  Already have an account?{" "}
-                  <Link
-                    href="/login"
-                    className="font-semibold text-emerald-700 transition-colors duration-200 hover:text-emerald-800"
-                  >
-                    Login
-                  </Link>
-                </p>
 
                 <div className="flex items-center gap-3">
                   <span
@@ -508,6 +393,16 @@ export default function RegisterPage() {
                   />
                   Continue with Google
                 </button>
+
+                <p className="text-center text-sm text-slate-500">
+                  Don&apos;t have an account?{" "}
+                  <Link
+                    href="/register"
+                    className="font-semibold text-emerald-700 transition-colors duration-200 hover:text-emerald-800"
+                  >
+                    Create an account
+                  </Link>
+                </p>
               </form>
 
               <motion.p
